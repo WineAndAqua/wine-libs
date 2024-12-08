@@ -1,0 +1,36 @@
+diff --git a/fetchDependencies b/fetchDependencies
+index 5c39fe96..9c85f64e 100755
+--- a/fetchDependencies
++++ b/fetchDependencies
+@@ -340,6 +340,7 @@ else
+ 	REPO_REV=$(cat "${EXT_REV_DIR}/${REPO_NAME}_repo_revision")
+ 
+ 	update_repo ${REPO_NAME} ${REPO_URL} ${REPO_REV}
++	if [ -f ../SPIRV-Cross.patch ]; then cat ../SPIRV-Cross.patch | patch -p2; fi
+ fi
+ 
+ 
+diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm new/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm
+--- old/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm	2025-10-31 21:00:30
++++ new/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm	2025-10-31 21:15:36
+@@ -309,7 +309,7 @@ MVKInstance::MVKInstance(const VkInstanceCreateInfo* p
+ 	_appInfo.apiVersion = MVK_VULKAN_API_VERSION_HEADER(_appInfo.apiVersion);
+ 
+ 	initProcAddrs();				// Init function pointers. After extensions enabled.
+-	logVersions();					// Log the MoltenVK and Vulkan versions. After config.
++	//logVersions();					// Log the MoltenVK and Vulkan versions. After config.
+ 
+ 	// Populate the array of physical GPU devices.
+ 	// This must be performed after extensions and config are established.
+diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
+--- old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-10-31 21:23:34
++++ new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-10-31 21:22:59
+@@ -2363,7 +2363,7 @@ MVKPhysicalDevice::MVKPhysicalDevice(MVKInstance* mvkI
+ 	initExternalMemoryProperties();
+ 	initCounterSets();
+ 	initVkSemaphoreStyle();
+-	logGPUInfo();
++	//logGPUInfo();
+ }
+ 
+ static MVKPhysicalDeviceArgumentBufferSizes::Entry getArgumentBufferSize(id<MTLDevice> dev, MTLDataType type) {
