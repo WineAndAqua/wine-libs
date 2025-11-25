@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=1.24.9
+VER=1.27.2
 PKGNAME=gstreamer
 
 if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://gstreamer.freedesktop.org/src/${PKGNAME}/${PKGNAME}-${VER}.tar.xz; fi

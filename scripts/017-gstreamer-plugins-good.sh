@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=1.24.9
+VER=1.27.2
 PKGNAME=gst-plugins-good
 
 if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://gstreamer.freedesktop.org/src/${PKGNAME}/${PKGNAME}-${VER}.tar.xz; fi
@@ -20,6 +20,7 @@ echo "\
 c = 'clang'\n\
 cpp = 'clang++'\n\
 objc = 'clang'\n\
+objcpp = 'clang'\n\
 strip = 'strip'\n\
 pkg-config = '${WINE_LIBS}/bin/pkg-config'\n\
 [host_machine]\n\

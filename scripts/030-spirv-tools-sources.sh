@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=2025.4
+VER=2026.1
 
 PKGNAME=SPIRV-Tools
 

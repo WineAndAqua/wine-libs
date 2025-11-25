@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=3.10
+VER=3.10.2
 PKGNAME=nettle
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://ftp.gnu.org/gnu/nettle/${PKGNAME}-${VER}.tar.gz; fi

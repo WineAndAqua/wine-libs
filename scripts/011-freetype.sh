@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=2.13.3
+VER=2.14.1
 PKGNAME=freetype
 
 if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://download.savannah.gnu.org/releases/freetype/${PKGNAME}-${VER}.tar.xz; fi
