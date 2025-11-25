@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=2.32.8
+VER=2.32.10
 PKGNAME=SDL2
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://github.com/libsdl-org/SDL/releases/download/release-${VER}/${PKGNAME}-${VER}.tar.gz; fi

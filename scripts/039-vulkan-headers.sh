@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=1.4.333
+VER=1.4.335
 
 PKGNAME=Vulkan-Headers
 

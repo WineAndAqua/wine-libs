@@ -34,3 +34,56 @@ diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GP
  }
  
  static MVKPhysicalDeviceArgumentBufferSizes::Entry getArgumentBufferSize(id<MTLDevice> dev, MTLDataType type) {
+diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
+--- old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-12-10 14:03:56
++++ new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-12-11 16:17:34
+@@ -675,6 +675,11 @@ void MVKPhysicalDevice::getFeatures(VkPhysicalDeviceFe
+ 				depthFeatures->depthClipControl = true;
+ 				break;
+ 			}
++			case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_ENABLE_FEATURES_EXT: {
++				auto* depthFeatures = (VkPhysicalDeviceDepthClipEnableFeaturesEXT*)next;
++				depthFeatures->depthClipEnable = true;
++				break;
++			}
+ 			case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT: {
+ 				auto* extDynState = (VkPhysicalDeviceExtendedDynamicStateFeaturesEXT*)next;
+ 				extDynState->extendedDynamicState = true;
+@@ -2736,6 +2741,7 @@ void MVKPhysicalDevice::initFeatures() {
+     _features.robustBufferAccess = true; // NOTE: Required by spec, not fully supported by non-Apple GPUs.
+     _features.fullDrawIndexUint32 = true;
+     _features.independentBlend = true;
++    _features.geometryShader = true;  // XXX Required by DXVK for D3D9
+     _features.sampleRateShading = true;
+ 	_features.logicOp = getMVKConfig().useMetalPrivateAPI;
+     _features.depthBiasClamp = true;
+@@ -2751,6 +2757,7 @@ void MVKPhysicalDevice::initFeatures() {
+     _features.shaderUniformBufferArrayDynamicIndexing = true;
+     _features.shaderStorageBufferArrayDynamicIndexing = true;
+     _features.shaderClipDistance = true;
++    _features.shaderCullDistance = true;  // XXX Required by DXVK for D3D9
+     _features.shaderInt16 = true;
+     _features.multiDrawIndirect = true;
+     _features.inheritedQueries = true;
+diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def new/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def
+--- old/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def	2025-12-11 15:17:44
++++ new/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def	2025-12-11 15:18:03
+@@ -98,6 +98,7 @@ MVK_DEVICE_FEATURE_EXTN(DepthClipControl,             
+ MVK_DEVICE_FEATURE_EXTN(SwapchainMaintenance1,            SWAPCHAIN_MAINTENANCE_1,              KHR,   1)
+ MVK_DEVICE_FEATURE_EXTN(4444Formats,                      4444_FORMATS,                         EXT,   2)
+ MVK_DEVICE_FEATURE_EXTN(DepthClipControl,                 DEPTH_CLIP_CONTROL,                   EXT,   1)
++MVK_DEVICE_FEATURE_EXTN(DepthClipEnable,                  DEPTH_CLIP_ENABLE,                    EXT,   1)
+ MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState,             EXTENDED_DYNAMIC_STATE,               EXT,   1)
+ MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState2,            EXTENDED_DYNAMIC_STATE_2,             EXT,   3)
+ MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState3,            EXTENDED_DYNAMIC_STATE_3,             EXT,  31)
+diff -urp old/MoltenVK/MoltenVK/Layers/MVKExtensions.def new/MoltenVK/MoltenVK/Layers/MVKExtensions.def
+--- old/MoltenVK/MoltenVK/Layers/MVKExtensions.def	2025-12-11 14:16:12
++++ new/MoltenVK/MoltenVK/Layers/MVKExtensions.def	2025-12-11 14:15:43
+@@ -136,6 +136,7 @@ MVK_EXTENSION(EXT_depth_clip_control,                 
+ MVK_EXTENSION(EXT_debug_report,                         EXT_DEBUG_REPORT,                         INSTANCE, 10.11,  8.0,  1.0)
+ MVK_EXTENSION(EXT_debug_utils,                          EXT_DEBUG_UTILS,                          INSTANCE, 10.11,  8.0,  1.0)
+ MVK_EXTENSION(EXT_depth_clip_control,                   EXT_DEPTH_CLIP_CONTROL,                   DEVICE,   10.11,  8.0,  1.0)
++MVK_EXTENSION(EXT_depth_clip_enable,                    EXT_DEPTH_CLIP_ENABLE,                    DEVICE,   10.11,  8.0,  1.0)
+ MVK_EXTENSION(EXT_descriptor_indexing,                  EXT_DESCRIPTOR_INDEXING,                  DEVICE,   10.11,  8.0,  1.0)
+ MVK_EXTENSION(EXT_extended_dynamic_state,               EXT_EXTENDED_DYNAMIC_STATE,               DEVICE,   10.11,  8.0,  1.0)
+ MVK_EXTENSION(EXT_extended_dynamic_state2,              EXT_EXTENDED_DYNAMIC_STATE_2,             DEVICE,   10.11,  8.0,  1.0)

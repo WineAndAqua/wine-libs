@@ -76,5 +76,3 @@ meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNA
 ninja -C mesa-workspace/build-mesa
 
 ninja -C mesa-workspace/build-mesa install
-
-#cp ${TOP}/mesa-workspace/build-mesa/src/kosmickrisp/vulkan/libvulkan_kosmickrisp.dylib ${WINE_LIBS}/lib

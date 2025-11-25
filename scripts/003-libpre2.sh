@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=10.44
+VER=10.47
 PKGNAME=pcre2
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://github.com/PCRE2Project/pcre2/releases/download/${PKGNAME}-${VER}/${PKGNAME}-${VER}.tar.gz; fi
