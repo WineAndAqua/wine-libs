@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=1.4.333
+VER=1.4.335
 
 PKGNAME=Vulkan-Loader
 
@@ -17,7 +17,6 @@ cd ${PKGNAME}-${VER}
 cmake -B build -S . \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$WINE_LIBS" \
-    -DCMAKE_OSX_ARCHITECTURES=x86_64 \
-    -DBUILD_LOADER=ON
+    -DCMAKE_OSX_ARCHITECTURES=x86_64
 
 cmake --build build --target install

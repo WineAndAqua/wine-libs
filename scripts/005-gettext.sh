@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=0.22.5
+VER=0.26
 PKGNAME=gettext
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://ftp.gnu.org/pub/gnu/gettext/${PKGNAME}-${VER}.tar.gz; fi
@@ -12,6 +12,8 @@ if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://ftp.gnu.org/p
 rm -Rf ${PKGNAME}-${VER} && tar xfz ${PKGNAME}-${VER}.tar.gz && cd ${PKGNAME}-${VER}
 
 if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patch | patch -p1; fi
+
+export CFLAGS="-Wno-incompatible-function-pointer-types"
 
 CC="clang -arch x86_64" \
 ac_cv_prog_AWK=/usr/bin/awk \
@@ -21,6 +23,7 @@ ac_cv_path_MSGFMT=: \
 ac_cv_path_MSGMERGE=: \
 ac_cv_path_SED=/usr/bin/sed \
 ac_cv_path_XGETTEXT=: \
+am_cv_func_iconv_works=yes \
 ./configure --prefix="$WINE_LIBS" \
 --build="x86_64-apple-darwin" \
 --enable-shared \

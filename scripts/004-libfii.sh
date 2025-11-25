@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=3.4.5
+VER=3.5.2
 PKGNAME=libffi
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://github.com/libffi/libffi/releases/download/v${VER}/${PKGNAME}-${VER}.tar.gz; fi

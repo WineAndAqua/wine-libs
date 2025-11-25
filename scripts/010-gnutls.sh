@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=3.8.4
+VER=3.8.11
 PKGNAME=gnutls
 
 if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/${PKGNAME}-${VER}.tar.xz; fi

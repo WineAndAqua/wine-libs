@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=7.1
+VER=8.0
 PKGNAME=ffmpeg
 
 if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://ffmpeg.org/releases/${PKGNAME}-${VER}.tar.xz; fi
