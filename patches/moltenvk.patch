@@ -1,43 +1,8 @@
-diff --git a/fetchDependencies b/fetchDependencies
-index 5c39fe96..9c85f64e 100755
---- a/fetchDependencies
-+++ b/fetchDependencies
-@@ -340,6 +340,7 @@ else
- 	REPO_REV=$(cat "${EXT_REV_DIR}/${REPO_NAME}_repo_revision")
- 
- 	update_repo ${REPO_NAME} ${REPO_URL} ${REPO_REV}
-+	if [ -f ../SPIRV-Cross.patch ]; then cat ../SPIRV-Cross.patch | patch -p2; fi
- fi
- 
- 
-diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm new/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm
---- old/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm	2025-10-31 21:00:30
-+++ new/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm	2025-10-31 21:15:36
-@@ -309,7 +309,7 @@ MVKInstance::MVKInstance(const VkInstanceCreateInfo* p
- 	_appInfo.apiVersion = MVK_VULKAN_API_VERSION_HEADER(_appInfo.apiVersion);
- 
- 	initProcAddrs();				// Init function pointers. After extensions enabled.
--	logVersions();					// Log the MoltenVK and Vulkan versions. After config.
-+	//logVersions();					// Log the MoltenVK and Vulkan versions. After config.
- 
- 	// Populate the array of physical GPU devices.
- 	// This must be performed after extensions and config are established.
-diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
---- old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-10-31 21:23:34
-+++ new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-10-31 21:22:59
-@@ -2363,7 +2363,7 @@ MVKPhysicalDevice::MVKPhysicalDevice(MVKInstance* mvkI
- 	initExternalMemoryProperties();
- 	initCounterSets();
- 	initVkSemaphoreStyle();
--	logGPUInfo();
-+	//logGPUInfo();
- }
- 
- static MVKPhysicalDeviceArgumentBufferSizes::Entry getArgumentBufferSize(id<MTLDevice> dev, MTLDataType type) {
-diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
---- old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-12-10 14:03:56
-+++ new/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm	2025-12-11 16:17:34
-@@ -675,6 +675,11 @@ void MVKPhysicalDevice::getFeatures(VkPhysicalDeviceFe
+diff --git a/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm b/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
+index 31e9c4a..633d28f 100644
+--- a/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
++++ b/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm
+@@ -675,6 +675,11 @@ void MVKPhysicalDevice::getFeatures(VkPhysicalDeviceFeatures2* features) {
  				depthFeatures->depthClipControl = true;
  				break;
  			}
@@ -49,7 +14,16 @@ diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GP
  			case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT: {
  				auto* extDynState = (VkPhysicalDeviceExtendedDynamicStateFeaturesEXT*)next;
  				extDynState->extendedDynamicState = true;
-@@ -2736,6 +2741,7 @@ void MVKPhysicalDevice::initFeatures() {
+@@ -2367,7 +2372,7 @@ MVKPhysicalDevice::MVKPhysicalDevice(MVKInstance* mvkInstance, id<MTLDevice> mtl
+ 	initExternalMemoryProperties();
+ 	initCounterSets();
+ 	initVkSemaphoreStyle();
+-	logGPUInfo();
++	//logGPUInfo();
+ }
+ 
+ static MVKPhysicalDeviceArgumentBufferSizes::Entry getArgumentBufferSize(id<MTLDevice> dev, MTLDataType type) {
+@@ -2740,6 +2752,7 @@ void MVKPhysicalDevice::initFeatures() {
      _features.robustBufferAccess = true; // NOTE: Required by spec, not fully supported by non-Apple GPUs.
      _features.fullDrawIndexUint32 = true;
      _features.independentBlend = true;
@@ -57,7 +31,7 @@ diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GP
      _features.sampleRateShading = true;
  	_features.logicOp = getMVKConfig().useMetalPrivateAPI;
      _features.depthBiasClamp = true;
-@@ -2751,6 +2757,7 @@ void MVKPhysicalDevice::initFeatures() {
+@@ -2755,6 +2768,7 @@ void MVKPhysicalDevice::initFeatures() {
      _features.shaderUniformBufferArrayDynamicIndexing = true;
      _features.shaderStorageBufferArrayDynamicIndexing = true;
      _features.shaderClipDistance = true;
@@ -65,10 +39,11 @@ diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDevice.mm new/MoltenVK/MoltenVK/GP
      _features.shaderInt16 = true;
      _features.multiDrawIndirect = true;
      _features.inheritedQueries = true;
-diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def new/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def
---- old/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def	2025-12-11 15:17:44
-+++ new/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def	2025-12-11 15:18:03
-@@ -98,6 +98,7 @@ MVK_DEVICE_FEATURE_EXTN(DepthClipControl,             
+diff --git a/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def b/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def
+index f489107..857aa1d 100644
+--- a/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def
++++ b/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def
+@@ -98,6 +98,7 @@ MVK_DEVICE_FEATURE_EXTN(ShaderSubgroupUniformControlFlow, SHADER_SUBGROUP_UNIFOR
  MVK_DEVICE_FEATURE_EXTN(SwapchainMaintenance1,            SWAPCHAIN_MAINTENANCE_1,              KHR,   1)
  MVK_DEVICE_FEATURE_EXTN(4444Formats,                      4444_FORMATS,                         EXT,   2)
  MVK_DEVICE_FEATURE_EXTN(DepthClipControl,                 DEPTH_CLIP_CONTROL,                   EXT,   1)
@@ -76,10 +51,24 @@ diff -urp old/MoltenVK/MoltenVK/GPUObjects/MVKDeviceFeatureStructs.def new/Molte
  MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState,             EXTENDED_DYNAMIC_STATE,               EXT,   1)
  MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState2,            EXTENDED_DYNAMIC_STATE_2,             EXT,   3)
  MVK_DEVICE_FEATURE_EXTN(ExtendedDynamicState3,            EXTENDED_DYNAMIC_STATE_3,             EXT,  31)
-diff -urp old/MoltenVK/MoltenVK/Layers/MVKExtensions.def new/MoltenVK/MoltenVK/Layers/MVKExtensions.def
---- old/MoltenVK/MoltenVK/Layers/MVKExtensions.def	2025-12-11 14:16:12
-+++ new/MoltenVK/MoltenVK/Layers/MVKExtensions.def	2025-12-11 14:15:43
-@@ -136,6 +136,7 @@ MVK_EXTENSION(EXT_depth_clip_control,                 
+diff --git a/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm b/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm
+index bd5a6ad..a634190 100644
+--- a/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm
++++ b/MoltenVK/MoltenVK/GPUObjects/MVKInstance.mm
+@@ -309,7 +309,7 @@ MVKInstance::MVKInstance(const VkInstanceCreateInfo* pCreateInfo) : _enabledExte
+ 	_appInfo.apiVersion = MVK_VULKAN_API_VERSION_HEADER(_appInfo.apiVersion);
+ 
+ 	initProcAddrs();				// Init function pointers. After extensions enabled.
+-	logVersions();					// Log the MoltenVK and Vulkan versions. After config.
++	//logVersions();					// Log the MoltenVK and Vulkan versions. After config.
+ 
+ 	// Populate the array of physical GPU devices.
+ 	// This must be performed after extensions and config are established.
+diff --git a/MoltenVK/MoltenVK/Layers/MVKExtensions.def b/MoltenVK/MoltenVK/Layers/MVKExtensions.def
+index 3ae63cb..d4751f9 100644
+--- a/MoltenVK/MoltenVK/Layers/MVKExtensions.def
++++ b/MoltenVK/MoltenVK/Layers/MVKExtensions.def
+@@ -137,6 +137,7 @@ MVK_EXTENSION(EXT_debug_marker,                         EXT_DEBUG_MARKER,
  MVK_EXTENSION(EXT_debug_report,                         EXT_DEBUG_REPORT,                         INSTANCE, 10.11,  8.0,  1.0)
  MVK_EXTENSION(EXT_debug_utils,                          EXT_DEBUG_UTILS,                          INSTANCE, 10.11,  8.0,  1.0)
  MVK_EXTENSION(EXT_depth_clip_control,                   EXT_DEPTH_CLIP_CONTROL,                   DEVICE,   10.11,  8.0,  1.0)
@@ -87,3 +76,15 @@ diff -urp old/MoltenVK/MoltenVK/Layers/MVKExtensions.def new/MoltenVK/MoltenVK/L
  MVK_EXTENSION(EXT_descriptor_indexing,                  EXT_DESCRIPTOR_INDEXING,                  DEVICE,   10.11,  8.0,  1.0)
  MVK_EXTENSION(EXT_extended_dynamic_state,               EXT_EXTENDED_DYNAMIC_STATE,               DEVICE,   10.11,  8.0,  1.0)
  MVK_EXTENSION(EXT_extended_dynamic_state2,              EXT_EXTENDED_DYNAMIC_STATE_2,             DEVICE,   10.11,  8.0,  1.0)
+diff --git a/fetchDependencies b/fetchDependencies
+index c69ff53..29f0d1b 100755
+--- a/fetchDependencies
++++ b/fetchDependencies
+@@ -340,6 +340,7 @@ else
+ 	REPO_REV=$(cat "${EXT_REV_DIR}/${REPO_NAME}_repo_revision")
+ 
+ 	update_repo ${REPO_NAME} ${REPO_URL} ${REPO_REV}
++	if [ -f ../SPIRV-Cross.patch ]; then cat ../SPIRV-Cross.patch | patch -p2; fi
+ fi
+ 
+ 
