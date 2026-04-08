@@ -34,6 +34,8 @@ system = 'darwin'\n\
 cpu_family = 'x86_64'\n\
 cpu = 'x86_64'\n\
 endian = 'little'\n\
+[properties]\n\
+needs_exe_wrapper = False\n\
 " > ${PKGNAME}-workspace/build-${PKGNAME}/cross.ini
 echo "\
 [binaries]\n\
