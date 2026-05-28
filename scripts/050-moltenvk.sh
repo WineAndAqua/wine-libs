@@ -6,7 +6,7 @@ PATH=${WINE_LIBS}/bin:${PATH}
 
 PKGNAME=moltenvk
 
-REV=ed40f671db12114be93ff379c40e5173dc536960
+REV=21dd02dfa2961b191e44b21cb9f94d9034904255
 
 if [ ! -d ${PKGNAME} ]; then
     git clone --depth 1 --branch main https://github.com/KhronosGroup/MoltenVK.git ${PKGNAME} && cd ${PKGNAME} && git checkout --force $REV && cd ..
