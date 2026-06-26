@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=1.4.345
+VER=1.4.350
 
 PKGNAME=Vulkan-Loader
 

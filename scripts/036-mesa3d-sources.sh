@@ -2,7 +2,7 @@
 
 PKGNAME=mesa
 
-REV=e5d9cdb62afffdb4156079544ff7af6cd502393f
+REV=0151fedf47288088b99057db82ff9df65f4d8d93
 
 if [ ! -d mesa-workspace/${PKGNAME} ]; then
     git clone --branch main https://gitlab.freedesktop.org/mesa/mesa.git mesa-workspace/${PKGNAME} && cd mesa-workspace/${PKGNAME} && git checkout --force $REV && cd ../..

@@ -1,0 +1,53 @@
+diff --git a/src/kosmickrisp/vulkan/kk_cmd_draw.c b/src/kosmickrisp/vulkan/kk_cmd_draw.c
+index c2827bbd68a..b292c4d0ba8 100644
+--- a/src/kosmickrisp/vulkan/kk_cmd_draw.c
++++ b/src/kosmickrisp/vulkan/kk_cmd_draw.c
+@@ -1229,6 +1229,13 @@ kk_flush_dynamic_state(struct kk_cmd_buffer *cmd)
+       mtl_set_depth_clip_mode(enc, mode);
+    }
+ 
++   if (IS_DIRTY(RS_DEPTH_CLIP_ENABLE)) {
++      enum mtl_depth_clip_mode mode = dyn->rs.depth_clip_enable
++                                         ? MTL_DEPTH_CLIP_MODE_CLIP
++                                         : MTL_DEPTH_CLIP_MODE_CLAMP;
++      mtl_set_depth_clip_mode(enc, mode);
++   }
++
+    if (IS_DIRTY(DS_STENCIL_REFERENCE))
+       mtl_set_stencil_references(
+          enc, cmd->vk.dynamic_graphics_state.ds.stencil.front.reference,
+diff --git a/src/kosmickrisp/vulkan/kk_physical_device.c b/src/kosmickrisp/vulkan/kk_physical_device.c
+index 5b981faaa69..5f44ac4ba1b 100644
+--- a/src/kosmickrisp/vulkan/kk_physical_device.c
++++ b/src/kosmickrisp/vulkan/kk_physical_device.c
+@@ -163,6 +163,7 @@ kk_get_device_extensions(const struct kk_instance *instance,
+       .EXT_custom_resolve = true,
+       .EXT_debug_marker = true,
+       .EXT_depth_clip_control = true,
++      .EXT_depth_clip_enable = true,
+       .EXT_extended_dynamic_state3 = true,
+       .EXT_external_memory_metal = true,
+       .EXT_external_memory_host = true,
+@@ -210,7 +211,9 @@ kk_get_device_features(
+       .drawIndirectFirstInstance = true,
+       .dualSrcBlend = true,
+       .fragmentStoresAndAtomics = true,
++      .fillModeNonSolid = true, // HACK for DXVK
+       .fullDrawIndexUint32 = true,
++      .geometryShader = true, // HACK for DXVK
+       .imageCubeArray = true,
+       .independentBlend = true,
+       .inheritedQueries = true,
+@@ -411,8 +414,12 @@ kk_get_device_features(
+       /* VK_EXT_depth_clip_control */
+       .depthClipControl = true,
+ 
++      /* VK_EXT_depth_clip_enable */
++      .depthClipEnable = true,
++
+       /* VK_EXT_extended_dynamic_state3 */
+       .extendedDynamicState3DepthClampEnable = true,
++      .extendedDynamicState3DepthClipEnable = true,
+       .extendedDynamicState3DepthClipNegativeOneToOne = true,
+       .extendedDynamicState3LineRasterizationMode = true,
+       .extendedDynamicState3SampleLocationsEnable = true,
