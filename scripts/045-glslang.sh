@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=16.2.0
+VER=16.4.0
 
 PKGNAME=glslang
 
