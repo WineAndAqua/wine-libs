@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=21.1.4
+VER=21.1.7
 
 PKGNAME=SPIRV-LLVM-Translator
 

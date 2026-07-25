@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-VER=1.4.341.0
+VER=1.4.350.1
 
 PKGNAME=SPIRV-Headers
 
