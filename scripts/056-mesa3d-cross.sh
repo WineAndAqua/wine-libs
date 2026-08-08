@@ -1,15 +1,19 @@
 #!/bin/sh -e
 
+if [ "$TARGET_X86" != "yes" ]; then
+    exit 0
+fi
+
 TOP=$(pwd)
 
 PKGNAME=mesa
 
 
-WINE_LIBS=${WINE_LIBS:=${TOP}/../target}
+WINE_LIBS=${WINE_LIBS:=${TOP}/../target-x86}
 
-PATH=${WINE_LIBS}/bin:${TOP}/${PKGNAME}-workspace/${PKGNAME}-tools/bin:${PATH}
+PATH=${WINE_LIBS}/bin:${TOP}/${PKGNAME}-workspace/${PKGNAME}-tools-cross/bin:${PATH}
 
-mkdir -p ${TOP}/${PKGNAME}-workspace/build-${PKGNAME}
+mkdir -p ${TOP}/${PKGNAME}-workspace/build-${PKGNAME}-cross
 
 echo "\
 [binaries]\n\
@@ -36,7 +40,7 @@ cpu = 'x86_64'\n\
 endian = 'little'\n\
 [properties]\n\
 needs_exe_wrapper = False\n\
-" > ${PKGNAME}-workspace/build-${PKGNAME}/cross.ini
+" > ${PKGNAME}-workspace/build-${PKGNAME}-cross/cross.ini
 echo "\
 [binaries]\n\
 c = 'clang'\n\
@@ -51,7 +55,7 @@ system = 'darwin'\n\
 cpu_family = 'aarch64'\n\
 cpu = 'arm64'\n\
 endian = 'little'\n\
-" > ${PKGNAME}-workspace/build-${PKGNAME}/native.ini
+" > ${PKGNAME}-workspace/build-${PKGNAME}-cross/native.ini
 
 
 export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-cross/bin/llvm-config
@@ -59,9 +63,9 @@ export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-cross/bin/llvm-config
 export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-x86_64/lib/pkgconfig:${TOP}/llvm-workspace/spirv-tools-x86_64/lib/pkgconfig:${TOP}/llvm-workspace/llvm-libclc/share/pkgconfig
 
 
-meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNAME} \
-  --native-file=${TOP}/mesa-workspace/build-${PKGNAME}/native.ini \
-  --cross-file=${TOP}/mesa-workspace/build-${PKGNAME}/cross.ini \
+meson setup ${TOP}/mesa-workspace/build-${PKGNAME}-cross ${TOP}/mesa-workspace/${PKGNAME}-sources \
+  --native-file=${TOP}/mesa-workspace/build-${PKGNAME}-cross/native.ini \
+  --cross-file=${TOP}/mesa-workspace/build-${PKGNAME}-cross/cross.ini \
   -Dprefix="$WINE_LIBS" \
   -Dgallium-drivers= \
   -Dvulkan-drivers=kosmickrisp \
@@ -75,6 +79,6 @@ meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNA
   -Dbuild-tests=false \
   -Dbuildtype=release
 
-ninja -C mesa-workspace/build-mesa
+ninja -C mesa-workspace/build-mesa-cross
 
-ninja -C mesa-workspace/build-mesa install
+ninja -C mesa-workspace/build-mesa-cross install

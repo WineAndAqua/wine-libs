@@ -14,9 +14,15 @@ fi
 
 cd ${PKGNAME}-${VER}
 
+if [ "$TARGET_X86" = "yes" ]; then
+    TARGET_ARCH="x86_64"
+else
+    TARGET_ARCH="arm64"
+fi
+
 cmake -B build -S . \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$WINE_LIBS" \
-    -DCMAKE_OSX_ARCHITECTURES=x86_64
+    -DCMAKE_OSX_ARCHITECTURES=$TARGET_ARCH
 
 cmake --build build --target install

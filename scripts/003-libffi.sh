@@ -13,11 +13,16 @@ rm -Rf ${PKGNAME}-${VER} && tar xf ${PKGNAME}-${VER}.tar.gz && cd ${PKGNAME}-${V
 
 if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patch | patch -p1; fi
 
-CC="clang -arch x86_64" \
+if [ "$TARGET_X86" = "yes" ]; then
+    export CC="clang -arch x86_64"
+    TARGET_ARCH="x86_64-apple-darwin"
+else
+    TARGET_ARCH="aarch64-apple-darwin"
+fi
 ABI=64 \
 ./configure \
 --prefix="$WINE_LIBS" \
---build="x86_64-apple-darwin" \
+--build=$TARGET_ARCH \
 --enable-shared \
 --disable-static
 
@@ -26,7 +31,7 @@ ${MAKE:-make} -j $PROCS
 
 
 mkdir -p ${WINE_LIBS}/include
-cp x86_64-apple-darwin/include/*.h ${WINE_LIBS}/include
+cp $TARGET_ARCH/include/*.h ${WINE_LIBS}/include
 mkdir -p ${WINE_LIBS}/lib
-cp -P x86_64-apple-darwin/.libs/*.dylib ${WINE_LIBS}/lib
-cp x86_64-apple-darwin/libffi.pc ${WINE_LIBS}/lib/pkgconfig
+cp -P $TARGET_ARCH/.libs/*.dylib ${WINE_LIBS}/lib
+cp $TARGET_ARCH/libffi.pc ${WINE_LIBS}/lib/pkgconfig

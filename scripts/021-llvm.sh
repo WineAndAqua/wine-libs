@@ -1,11 +1,15 @@
 #!/bin/sh -e
 
-mkdir -p llvm-workspace/build-arm64
-cmake -B llvm-workspace/build-arm64 -S llvm-workspace/llvm-sources/llvm \
-    -DCMAKE_INSTALL_PREFIX="$(pwd)/llvm-workspace/llvm-arm64" \
+if [ "$TARGET_X86" == "yes" ]; then
+    exit 0
+fi
+
+mkdir -p llvm-workspace/build-native
+cmake -B llvm-workspace/build-native -S llvm-workspace/llvm-sources/llvm \
+    -DCMAKE_INSTALL_PREFIX="$(pwd)/llvm-workspace/llvm-native" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_OSX_ARCHITECTURES="arm64" \
-    -DLLVM_TARGETS_TO_BUILD="AArch64;X86" \
+    -DLLVM_TARGETS_TO_BUILD="AArch64" \
     -DLLVM_DEFAULT_TARGET_TRIPLE=arm64-apple-darwin \
     -DLLVM_ENABLE_PROJECTS="clang;lld" \
     -DLLVM_ENABLE_RTTI=ON \
@@ -17,7 +21,7 @@ cmake -B llvm-workspace/build-arm64 -S llvm-workspace/llvm-sources/llvm \
     -DBUILD_SHARED_LIBS=ON \
     -G Ninja
 
-pushd llvm-workspace/build-arm64
+pushd llvm-workspace/build-native
 ninja
 ninja install
 popd

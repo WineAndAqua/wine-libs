@@ -7,18 +7,23 @@ PATH=${WINE_LIBS}/bin:${PATH}
 VER=2.14.1
 PKGNAME=freetype
 
-if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://download.savannah.gnu.org/releases/freetype/${PKGNAME}-${VER}.tar.xz; fi
+if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://download-mirror.savannah.gnu.org/releases/freetype/${PKGNAME}-${VER}.tar.xz; fi
 
 rm -Rf ${PKGNAME}-${VER} && tar xf ${PKGNAME}-${VER}.tar.xz && cd ${PKGNAME}-${VER}
 
 if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patch | patch -p1; fi
 
-CC="clang -arch x86_64" \
+if [ "$TARGET_X86" = "yes" ]; then
+    export CC="clang -arch x86_64"
+    TARGET_ARCH="x86_64-apple-darwin"
+else
+    TARGET_ARCH="aarch64-apple-darwin"
+fi
 CFLAGS="-I${WINE_LIBS}/include" \
 LDFLAGS="-L${WINE_LIBS}/lib" \
 ac_cv_prog_AWK=/usr/bin/awk \
 ./configure --prefix="$WINE_LIBS" \
---build="x86_64-apple-darwin" \
+--build=$TARGET_ARCH \
 --enable-shared \
 --disable-static \
 --without-harfbuzz \

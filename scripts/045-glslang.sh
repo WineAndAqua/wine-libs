@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+if [ "$TARGET_X86" == "yes" ]; then
+    exit 0
+fi
+
 VER=16.4.0
 
 PKGNAME=glslang
@@ -18,15 +22,15 @@ cd ${PKGNAME}-${VER}
 
 cmake -B build -S . \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_OSX_ARCHITECTURES=x86_64 \
     -DCMAKE_INSTALL_PREFIX="$WINE_LIBS" \
-    -DCMAKE_PREFIX_PATH="${TOP}/llvm-workspace/spirv-tools-x86_64" \
+    -DCMAKE_PREFIX_PATH="${TOP}/llvm-workspace/spirv-tools" \
     -DCMAKE_SKIP_RPATH=ON \
     -DBUILD_EXTERNAL=OFF \
     -DBUILD_SHARED_LIBS=ON \
     -DENABLE_GLSLANG_BINARIES=ON \
     -DALLOW_EXTERNAL_SPIRV_TOOLS=ON \
-    -DGLSLANG_TESTS=OFF
+    -DGLSLANG_TESTS=OFF \
+    -DCMAKE_OSX_ARCHITECTURES="arm64"
 
 cmake --build build --target install
 

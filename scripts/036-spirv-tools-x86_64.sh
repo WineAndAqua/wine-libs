@@ -1,9 +1,13 @@
 #!/bin/sh -e
 
+if [ "$TARGET_X86" != "yes" ]; then
+    exit 0
+fi
+
 PKGNAME=SPIRV-Tools
 
 mkdir -p llvm-workspace/build-spirv-tools-x86_64
-cmake -B llvm-workspace/build-spirv-tools-x86_64 -S llvm-workspace/${PKGNAME} \
+cmake -B llvm-workspace/build-spirv-tools-x86_64 -S llvm-workspace/${PKGNAME}-sources \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_OSX_ARCHITECTURES="x86_64" \
     -DSPIRV-Headers_SOURCE_DIR="$(pwd)/llvm-workspace/spirv-headers" \

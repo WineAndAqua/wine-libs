@@ -13,12 +13,17 @@ rm -Rf ${PKGNAME}-${VER} && tar xf ${PKGNAME}-${VER}.tar.xz && cd ${PKGNAME}-${V
 
 if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patch | patch -p1; fi
 
-CC="clang -arch x86_64" \
+if [ "$TARGET_X86" = "yes" ]; then
+    export CC="clang -arch x86_64"
+    TARGET_ARCH="x86_64-apple-darwin"
+else
+    TARGET_ARCH="aarch64-apple-darwin"
+fi
 CFLAGS="-I${WINE_LIBS}/include" \
 LDFLAGS="-L${WINE_LIBS}/lib" \
 ac_cv_prog_AWK=/usr/bin/awk \
 ./configure --prefix="$WINE_LIBS" \
---build="x86_64-apple-darwin" \
+--build=$TARGET_ARCH \
 --disable-dependency-tracking \
 --disable-doc \
 --disable-heartbeat-support \
@@ -32,7 +37,6 @@ ac_cv_prog_AWK=/usr/bin/awk \
 --disable-openssl-compatibility \
 --without-p11-kit \
 --without-brotli \
---disable-guile \
 --disable-cxx \
 --without-idn \
 --without-zstd \

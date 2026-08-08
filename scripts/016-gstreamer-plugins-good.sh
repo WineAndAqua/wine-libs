@@ -15,6 +15,14 @@ if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patc
 
 mkdir -p build && cd build
 
+if [ "$TARGET_X86" = "yes" ]; then
+    TARGET_ARCH="x86_64"
+    TARGET_CPU="x86_64"
+else
+    TARGET_ARCH="arm64"
+    TARGET_CPU="aarch64"
+fi
+
 echo "\
 [binaries]\n\
 c = 'clang'\n\
@@ -25,19 +33,19 @@ strip = 'strip'\n\
 pkg-config = '${WINE_LIBS}/bin/pkg-config'\n\
 [host_machine]\n\
 system = 'darwin'\n\
-cpu_family = 'x86_64'\n\
-cpu = 'x86_64'\n\
+cpu_family = '$TARGET_CPU'\n\
+cpu = '$TARGET_CPU'\n\
 endian = 'little'\n\
 " > cross.ini
 CC="clang" \
 CXX="clang++" \
-LDFLAGS="-arch x86_64 -L${WINE_LIBS}/lib" \
+LDFLAGS="-arch $TARGET_ARCH -L${WINE_LIBS}/lib" \
 meson setup .. --cross-file=cross.ini \
--Dc_args="-arch x86_64 -I${WINE_LIBS}/include -funroll-loops -fstrict-aliasing -fno-common" \
--Dcpp_args="-arch x86_64 -I${WINE_LIBS}/include -funroll-loops -fstrict-aliasing -fno-common" \
--Dobjc_args="-arch x86_64" \
--Dc_link_args="-arch x86_64 -L${WINE_LIBS}/lib" \
--Dcpp_link_args="-arch x86_64 -L${WINE_LIBS}/lib" \
+-Dc_args="-arch $TARGET_ARCH -I${WINE_LIBS}/include -funroll-loops -fstrict-aliasing -fno-common" \
+-Dcpp_args="-arch $TARGET_ARCH -I${WINE_LIBS}/include -funroll-loops -fstrict-aliasing -fno-common" \
+-Dobjc_args="-arch $TARGET_ARCH" \
+-Dc_link_args="-arch $TARGET_ARCH -L${WINE_LIBS}/lib" \
+-Dcpp_link_args="-arch $TARGET_ARCH -L${WINE_LIBS}/lib" \
 -Dprefix="$WINE_LIBS" \
 -Dbuildtype=release \
 -Ddoc=disabled \

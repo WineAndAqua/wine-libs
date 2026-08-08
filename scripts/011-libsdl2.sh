@@ -13,11 +13,16 @@ rm -Rf ${PKGNAME}-${VER} && tar xf ${PKGNAME}-${VER}.tar.gz && cd ${PKGNAME}-${V
 
 if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patch | patch -p1; fi
 
-CC="clang -arch x86_64" \
+if [ "$TARGET_X86" = "yes" ]; then
+    export CC="clang -arch x86_64"
+    TARGET_ARCH="x86_64-apple-darwin"
+else
+    TARGET_ARCH="aarch64-apple-darwin"
+fi
 CFLAGS="-I${WINE_LIBS}/include" \
 LDFLAGS="-L${WINE_LIBS}/lib" \
 ./configure --prefix="$WINE_LIBS" \
---build="x86_64-apple-darwin" \
+--build=$TARGET_ARCH \
 --enable-shared \
 --disable-static \
 --disable-video \

@@ -15,7 +15,12 @@ if [ -f ../../patches/${PKGNAME}.patch ]; then cat ../../patches/${PKGNAME}.patc
 
 export CFLAGS="-Wno-incompatible-function-pointer-types"
 
-CC="clang -arch x86_64" \
+if [ "$TARGET_X86" = "yes" ]; then
+    export CC="clang -arch x86_64"
+    TARGET_ARCH="x86_64-apple-darwin"
+else
+    TARGET_ARCH="aarch64-apple-darwin"
+fi
 ac_cv_prog_AWK=/usr/bin/awk \
 ac_cv_path_GMSGFMT=: \
 ac_cv_path_GREP=/usr/bin/grep \
@@ -24,8 +29,9 @@ ac_cv_path_MSGMERGE=: \
 ac_cv_path_SED=/usr/bin/sed \
 ac_cv_path_XGETTEXT=: \
 am_cv_func_iconv_works=yes \
-./configure --prefix="$WINE_LIBS" \
---build="x86_64-apple-darwin" \
+./configure \
+--prefix="$WINE_LIBS" \
+--build=$TARGET_ARCH \
 --enable-shared \
 --disable-static \
 --without-xz \

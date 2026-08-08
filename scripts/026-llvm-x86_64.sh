@@ -1,5 +1,9 @@
 #!/bin/sh -e
 
+if [ "$TARGET_X86" != "yes" ]; then
+    exit 0
+fi
+
 mkdir -p llvm-workspace/build-cross
 cmake -B llvm-workspace/build-cross -S llvm-workspace/llvm-sources/llvm \
     -DCMAKE_INSTALL_PREFIX="$(pwd)/llvm-workspace/llvm-cross" \

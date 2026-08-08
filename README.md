@@ -1,4 +1,4 @@
-**This script builds library dependencies for Wine with the x86_64 architecture on macOS.**
+**This script builds library dependencies for Wine with on macOS.**
 
 **Supported only on macOS 15 or later running on Apple Silicon.**
 

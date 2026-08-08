@@ -31,3 +31,4 @@ install -d ${WINE_LIBS}/bin
 install -m 755 pkg-config ${WINE_LIBS}/bin
 install -d ${WINE_LIBS}/share/aclocal
 install -m 644 pkg.m4 ${WINE_LIBS}/share/aclocal
+mkdir -p ${WINE_LIBS}/lib/pkgconfig
