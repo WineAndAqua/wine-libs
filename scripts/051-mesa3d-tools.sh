@@ -12,7 +12,7 @@ export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-native/bin/llvm-config
 
 export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-native/lib/pkgconfig:${TOP}/llvm-workspace/spirv-tools-native/lib/pkgconfig:${TOP}/llvm-workspace/llvm-libclc/share/pkgconfig
 
-meson setup mesa-workspace/build-mesa-tools mesa-workspace/${PKGNAME} \
+meson setup mesa-workspace/build-mesa-tools mesa-workspace/${PKGNAME}-sources \
   -Dprefix="${TOP}/mesa-workspace/mesa-tools" \
   -Dllvm=enabled \
   -Dspirv-tools=enabled \

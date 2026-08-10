@@ -19,8 +19,7 @@ export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-native/bin/llvm-config
 
 export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-native/lib/pkgconfig:${TOP}/llvm-workspace/spirv-tools-native/lib/pkgconfig:${TOP}/llvm-workspace/llvm-libclc/share/pkgconfig
 
-
-meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNAME} \
+meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNAME}-sources \
   -Dprefix="$WINE_LIBS" \
   -Dgallium-drivers= \
   -Dvulkan-drivers=kosmickrisp \
