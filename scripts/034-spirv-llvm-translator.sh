@@ -9,7 +9,7 @@ PKGNAME=SPIRV-LLVM-Translator
 export PKG_CONFIG_PATH=$(pwd)/llvm-workspace/spirv-tools-native/lib/pkgconfig:$PKG_CONFIG_PATH
 
 mkdir -p llvm-workspace/build-spirv-llvm-translator-native
-cmake -B llvm-workspace/build-spirv-llvm-translator-native -S llvm-workspace/${PKGNAME} \
+cmake -B llvm-workspace/build-spirv-llvm-translator-native -S llvm-workspace/${PKGNAME}-sources \
     -DCMAKE_BUILD_TYPE=Release \
     -DLLVM_DIR="$(pwd)/llvm-workspace/llvm-native/lib/cmake/llvm" \
     -DCMAKE_OSX_ARCHITECTURES="arm64" \

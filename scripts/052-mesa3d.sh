@@ -14,7 +14,6 @@ PATH=${WINE_LIBS}/bin:${PATH}
 
 mkdir -p ${TOP}/${PKGNAME}-workspace/build-${PKGNAME}-native
 
-
 export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-native/bin/llvm-config
 
 export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-native/lib/pkgconfig:${TOP}/llvm-workspace/spirv-tools-native/lib/pkgconfig:${TOP}/llvm-workspace/llvm-libclc/share/pkgconfig

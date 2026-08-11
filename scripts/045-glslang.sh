@@ -23,7 +23,7 @@ cd ${PKGNAME}-${VER}
 cmake -B build -S . \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX="$WINE_LIBS" \
-    -DCMAKE_PREFIX_PATH="${TOP}/llvm-workspace/spirv-tools" \
+    -DCMAKE_PREFIX_PATH="${TOP}/llvm-workspace/spirv-tools-native" \
     -DCMAKE_SKIP_RPATH=ON \
     -DBUILD_EXTERNAL=OFF \
     -DBUILD_SHARED_LIBS=ON \

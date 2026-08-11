@@ -11,7 +11,7 @@ export PKG_CONFIG_PATH=$(pwd)/llvm-workspace/spirv-tools-x86_64/lib/pkgconfig:$P
 mkdir -p llvm-workspace/build-spirv-llvm-translator-x86_64
 cmake -B llvm-workspace/build-spirv-llvm-translator-x86_64 -S llvm-workspace/${PKGNAME}-sources \
     -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_DIR="$(pwd)/llvm-workspace/llvm-cross/lib/cmake/llvm" \
+    -DLLVM_DIR="$(pwd)/llvm-workspace/llvm-x86_64/lib/cmake/llvm" \
     -DCMAKE_OSX_ARCHITECTURES="x86_64" \
     -DLLVM_HOST_TRIPLE=x86_64-apple-darwin \
     -DLLVM_TARGETS_TO_BUILD="X86" \

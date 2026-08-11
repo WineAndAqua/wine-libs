@@ -4,9 +4,9 @@ if [ "$TARGET_X86" != "yes" ]; then
     exit 0
 fi
 
-mkdir -p llvm-workspace/build-cross
-cmake -B llvm-workspace/build-cross -S llvm-workspace/llvm-sources/llvm \
-    -DCMAKE_INSTALL_PREFIX="$(pwd)/llvm-workspace/llvm-cross" \
+mkdir -p llvm-workspace/build-x86_64
+cmake -B llvm-workspace/build-x86_64 -S llvm-workspace/llvm-sources/llvm \
+    -DCMAKE_INSTALL_PREFIX="$(pwd)/llvm-workspace/llvm-x86_64" \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_OSX_ARCHITECTURES="x86_64" \
     -DLLVM_TARGETS_TO_BUILD="X86" \
@@ -21,7 +21,7 @@ cmake -B llvm-workspace/build-cross -S llvm-workspace/llvm-sources/llvm \
     -DBUILD_SHARED_LIBS=ON \
     -G Ninja
 
-pushd llvm-workspace/build-cross
+pushd llvm-workspace/build-x86_64
 ninja
 ninja install
 popd

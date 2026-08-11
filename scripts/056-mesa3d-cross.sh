@@ -57,11 +57,9 @@ cpu = 'arm64'\n\
 endian = 'little'\n\
 " > ${PKGNAME}-workspace/build-${PKGNAME}-cross/native.ini
 
-
 export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-cross/bin/llvm-config
 
 export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-x86_64/lib/pkgconfig:${TOP}/llvm-workspace/spirv-tools-x86_64/lib/pkgconfig:${TOP}/llvm-workspace/llvm-libclc/share/pkgconfig
-
 
 meson setup ${TOP}/mesa-workspace/build-${PKGNAME}-cross ${TOP}/mesa-workspace/${PKGNAME}-sources \
   --native-file=${TOP}/mesa-workspace/build-${PKGNAME}-cross/native.ini \
