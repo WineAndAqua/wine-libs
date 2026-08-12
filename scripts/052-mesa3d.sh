@@ -12,7 +12,7 @@ WINE_LIBS=${WINE_LIBS:=${TOP}/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-mkdir -p ${TOP}/${PKGNAME}-workspace/build-${PKGNAME}-native
+mkdir -p ${TOP}/${PKGNAME}-workspace/build-${PKGNAME}
 
 export LLVM_CONFIG=${TOP}/llvm-workspace/llvm-native/bin/llvm-config
 
