@@ -65,7 +65,7 @@ meson setup ${TOP}/mesa-workspace/build-${PKGNAME}-cross ${TOP}/mesa-workspace/$
   --native-file=${TOP}/mesa-workspace/build-${PKGNAME}-cross/native.ini \
   --cross-file=${TOP}/mesa-workspace/build-${PKGNAME}-cross/cross.ini \
   -Dprefix="$WINE_LIBS" \
-  -Dgallium-drivers= \
+  -Dgallium-drivers=zink \
   -Dvulkan-drivers=kosmickrisp \
   -Dplatforms=macos \
   -Dmesa-clc=system \

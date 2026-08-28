@@ -20,7 +20,7 @@ export PKG_CONFIG_PATH=${TOP}/llvm-workspace/spirv-llvm-translator-native/lib/pk
 
 meson setup ${TOP}/mesa-workspace/build-${PKGNAME} ${TOP}/mesa-workspace/${PKGNAME}-sources \
   -Dprefix="$WINE_LIBS" \
-  -Dgallium-drivers= \
+  -Dgallium-drivers=zink \
   -Dvulkan-drivers=kosmickrisp \
   -Dplatforms=macos \
   -Dzstd=disabled \
