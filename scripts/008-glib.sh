@@ -4,10 +4,10 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=2.78.6
+VER=2.86.5
 PKGNAME=glib
 
-if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://download.gnome.org/sources/glib/2.78/${PKGNAME}-${VER}.tar.xz; fi
+if [ ! -f ${PKGNAME}-${VER}.tar.xz ]; then wget --continue https://download.gnome.org/sources/glib/2.86/${PKGNAME}-${VER}.tar.xz; fi
 
 rm -Rf ${PKGNAME}-${VER} && tar xf ${PKGNAME}-${VER}.tar.xz && cd ${PKGNAME}-${VER}
 
@@ -47,6 +47,7 @@ meson setup .. --cross-file=cross.ini \
 -Dcpp_link_args="-L${WINE_LIBS}/lib" \
 -Dprefix="$WINE_LIBS" \
 -Dbuildtype=release \
+-Dtests=false
 
 meson compile
 meson install
