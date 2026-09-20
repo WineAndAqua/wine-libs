@@ -4,7 +4,7 @@ WINE_LIBS=${WINE_LIBS:=$(PWD)/../target}
 
 PATH=${WINE_LIBS}/bin:${PATH}
 
-VER=0.26
+VER=1.0
 PKGNAME=gettext
 
 if [ ! -f ${PKGNAME}-${VER}.tar.gz ]; then wget --continue https://ftp.gnu.org/pub/gnu/gettext/${PKGNAME}-${VER}.tar.gz; fi
