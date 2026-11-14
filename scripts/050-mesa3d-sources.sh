@@ -2,7 +2,7 @@
 
 PKGNAME=mesa
 
-REV=393bf0d1467c4a7e208fd0d36b05b99438926079
+REV=cae0e1618e0ca5d780fc289f5833446be08c9fb4
 
 if [ ! -d mesa-workspace/${PKGNAME}-sources ]; then
     mkdir -p mesa-workspace/${PKGNAME}-sources
